@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel — Sistema de Almoxarifado</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="marca">
+      <span class="logo-mini"><img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo"></span>
+      <span>Sistema de Almoxarifado</span>
+    </div>
+    <div class="usuario-area">
+      {% if usuario_atual.is_admin %}
+      <a href="{{ url_for('users.pagina_usuarios') }}" class="link-topo">Usuários</a>
+      {% endif %}
+      <a href="{{ url_for('auth.minha_conta') }}" class="link-topo">Minha Conta</a>
+      <a href="{{ url_for('auth.logout') }}" class="btn-sair" title="Sair">Sair</a>
+    </div>
+  </div>
+
+  <h1 class="boas-vindas">Bem-vindo, {{ usuario_atual.nome }}!</h1>
+
+  <div class="container">
+    <div class="painel">
+      <div class="painel-cabecalho">
+        <h2><i class="fa-solid fa-clipboard-list"></i> Itens em Estoque</h2>
+        <div class="acoes-topo">
+          <button class="btn btn-secundario" id="btnExportar">
+            <i class="fa-solid fa-file-excel"></i> Exportar Excel
+          </button>
+          <button class="btn btn-ocre" id="btnNovoItem">
+            <i class="fa-solid fa-plus"></i> Adicionar Novo Item
+          </button>
+        </div>
+      </div>
+
+      <div class="busca-area">
+        <div class="busca-input">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" id="campoBusca" placeholder="Buscar por nome, localização ou finalidade...">
+        </div>
+      </div>
+
+      <div id="areaTabela">
+        <table>
+          <thead>
+            <tr>
+              <th>Nome do Item</th>
+              <th>Quantidade</th>
+              <th>Localização</th>
+              <th>Finalidade/Categoria</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="corpoTabela">
+            <!-- Preenchido via JavaScript -->
+          </tbody>
+        </table>
+        <div class="estado-vazio" id="estadoVazio" style="display:none;">
+          <i class="fa-solid fa-box-open"></i>
+          <p>Nenhum item encontrado.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Adicionar/Editar Item -->
+  <div class="overlay" id="overlayModal">
+    <div class="modal">
+      <div class="modal-cabecalho">
+        <h3 id="tituloModal"><i class="fa-solid fa-box"></i> Adicionar Novo Item</h3>
+        <button class="fechar-modal" id="btnFecharModal">&times;</button>
+      </div>
+      <div class="modal-corpo">
+        <form id="formItem">
+          <input type="hidden" id="itemId">
+
+          <div class="campo">
+            <label for="inputNome">Nome do Item *</label>
+            <input type="text" id="inputNome" placeholder="Ex: Cadeiras dobráveis" required>
+          </div>
+
+          <div class="grid-2">
+            <div class="campo">
+              <label for="inputQuantidade">Quantidade *</label>
+              <input type="number" id="inputQuantidade" min="0" placeholder="0" required>
+            </div>
+            <div class="campo">
+              <label for="inputLocalizacao">Localização *</label>
+              <input type="text" id="inputLocalizacao" placeholder="Ex: Prateleira A3" required>
+            </div>
+          </div>
+
+          <div class="campo">
+            <label for="inputFinalidade">Finalidade/Categoria *</label>
+            <input type="text" id="inputFinalidade" placeholder="Ex: Retiro, Liturgia, Manutenção..." required>
+          </div>
+
+          <div class="alerta" id="alertaFormulario" style="display:none;"></div>
+        </form>
+      </div>
+      <div class="modal-rodape">
+        <button class="btn btn-secundario" id="btnCancelar">Cancelar</button>
+        <button class="btn btn-ocre" id="btnSalvar"><i class="fa-solid fa-floppy-disk"></i> Salvar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast de notificação -->
+  <div id="toast"><i class="fa-solid fa-circle-check"></i> <span id="toastMensagem"></span></div>
+
+  <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+</html>

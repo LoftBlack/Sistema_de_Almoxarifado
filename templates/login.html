@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login — Sistema de Almoxarifado</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="login-page">
+
+  <!-- Logo/identidade visual (mesma linguagem do sistema "Chamada da Crisma") -->
+  <div class="login-logo">
+    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo">
+  </div>
+
+  <div class="login-card">
+    <h1>Sistema de Almoxarifado</h1>
+
+    <form method="POST" action="{{ url_for('auth.login') }}">
+      <div class="campo">
+        <label for="usuario">Usuário</label>
+        <input type="text" id="usuario" name="usuario" placeholder="Digite o nome cadastrado" autocomplete="username" required autofocus>
+      </div>
+
+      <div class="campo">
+        <label for="senha">Senha</label>
+        <input type="password" id="senha" name="senha" placeholder="Digite sua senha" autocomplete="current-password" required>
+      </div>
+
+      <button type="submit" class="btn btn-primario">Entrar</button>
+
+      {% if erro %}
+      <p class="mensagem-erro">{{ erro }}</p>
+      {% endif %}
+    </form>
+
+    {% if sem_usuarios %}
+    <div class="login-credenciais-dica">
+      Nenhum usuário cadastrado ainda. No servidor, rode:<br>
+      <code>flask --app app create-admin</code><br>
+      para criar o primeiro administrador.
+    </div>
+    {% endif %}
+  </div>
+</body>
+</html>

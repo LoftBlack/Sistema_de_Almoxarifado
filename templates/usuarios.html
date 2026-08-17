@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Usuários — Sistema de Almoxarifado</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="marca">
+      <span class="logo-mini"><img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo"></span>
+      <span>Sistema de Almoxarifado</span>
+    </div>
+    <div class="usuario-area">
+      <a href="{{ url_for('items.dashboard') }}" class="link-topo">Voltar ao Painel</a>
+      <a href="{{ url_for('auth.minha_conta') }}" class="link-topo">Minha Conta</a>
+      <a href="{{ url_for('auth.logout') }}" class="btn-sair" title="Sair">Sair</a>
+    </div>
+  </div>
+
+  <h1 class="boas-vindas">Gerenciar Usuários</h1>
+
+  <div class="container">
+    <div class="painel">
+      <div class="painel-cabecalho">
+        <h2><i class="fa-solid fa-users"></i> Usuários do Sistema</h2>
+        <div class="acoes-topo">
+          <button class="btn btn-ocre" id="btnNovoUsuario">
+            <i class="fa-solid fa-user-plus"></i> Novo Usuário
+          </button>
+        </div>
+      </div>
+
+      <div id="areaTabela">
+        <table>
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Usuário</th>
+              <th>Perfil</th>
+              <th>Status</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="corpoTabelaUsuarios">
+            <!-- Preenchido via JavaScript -->
+          </tbody>
+        </table>
+        <div class="estado-vazio" id="estadoVazioUsuarios" style="display:none;">
+          <i class="fa-solid fa-user-slash"></i>
+          <p>Nenhum usuário encontrado.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Novo/Editar Usuário -->
+  <div class="overlay" id="overlayModalUsuario">
+    <div class="modal">
+      <div class="modal-cabecalho">
+        <h3 id="tituloModalUsuario"><i class="fa-solid fa-user-plus"></i> Novo Usuário</h3>
+        <button class="fechar-modal" id="btnFecharModalUsuario">&times;</button>
+      </div>
+      <div class="modal-corpo">
+        <form id="formUsuario">
+          <input type="hidden" id="usuarioId">
+
+          <div class="campo">
+            <label for="inputNomeUsuario">Nome completo *</label>
+            <input type="text" id="inputNomeUsuario" placeholder="Ex: Maria Silva" required>
+          </div>
+
+          <div class="campo">
+            <label for="inputUsername">Nome de usuário (login) *</label>
+            <input type="text" id="inputUsername" placeholder="Ex: maria.silva" required>
+          </div>
+
+          <div class="campo" id="campoSenhaUsuario">
+            <label for="inputSenhaUsuario">Senha *</label>
+            <input type="password" id="inputSenhaUsuario" placeholder="Mínimo 6 caracteres">
+          </div>
+
+          <div class="campo">
+            <label style="display:flex; align-items:center; gap:8px; justify-content:flex-start; text-align:left;">
+              <input type="checkbox" id="inputIsAdmin" style="width:auto;">
+              É administrador (pode gerenciar usuários)
+            </label>
+          </div>
+
+          <div class="alerta" id="alertaFormularioUsuario" style="display:none;"></div>
+        </form>
+      </div>
+      <div class="modal-rodape">
+        <button class="btn btn-secundario" id="btnCancelarUsuario">Cancelar</button>
+        <button class="btn btn-ocre" id="btnSalvarUsuario"><i class="fa-solid fa-floppy-disk"></i> Salvar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Redefinir Senha -->
+  <div class="overlay" id="overlayModalSenha">
+    <div class="modal">
+      <div class="modal-cabecalho">
+        <h3><i class="fa-solid fa-key"></i> Redefinir Senha</h3>
+        <button class="fechar-modal" id="btnFecharModalSenha">&times;</button>
+      </div>
+      <div class="modal-corpo">
+        <input type="hidden" id="usuarioIdSenha">
+        <div class="campo">
+          <label for="inputNovaSenha">Nova senha *</label>
+          <input type="password" id="inputNovaSenha" placeholder="Mínimo 6 caracteres">
+        </div>
+        <div class="alerta" id="alertaSenha" style="display:none;"></div>
+      </div>
+      <div class="modal-rodape">
+        <button class="btn btn-secundario" id="btnCancelarSenha">Cancelar</button>
+        <button class="btn btn-ocre" id="btnConfirmarSenha"><i class="fa-solid fa-check"></i> Redefinir</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast"><i class="fa-solid fa-circle-check"></i> <span id="toastMensagem"></span></div>
+
+  <script src="{{ url_for('static', filename='js/usuarios.js') }}"></script>
+</body>
+</html>
