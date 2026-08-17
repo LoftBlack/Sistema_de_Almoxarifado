@@ -37,34 +37,44 @@ almoxarifado/
 ## Passo a passo para rodar localmente
 
 ### 1. Pré-requisitos
+
 - Python 3.9+ instalado (`python --version`)
 
 ### 2. Ambiente virtual
+
 ```bash
 python -m venv venv
 ```
+
 - **Windows (PowerShell):** `venv\Scripts\Activate.ps1`
 - **Mac/Linux:** `source venv/bin/activate`
 
 ### 3. Instalar dependências
+
 ```bash
 pip install -r requirements.txt
 ```
 
 ### 4. Configurar variáveis de ambiente
+
 Copie `.env.example` para `.env` e gere uma `SECRET_KEY` própria:
+
 ```bash
 cp .env.example .env
 python -c "import secrets; print(secrets.token_hex(32))"
 ```
+
 Cole o valor gerado no `.env`.
 
 ### 5. Criar o seu usuário administrador
+
 Este é o passo que substitui o antigo `admin`/`admin` fixo no código.
 Rode (a senha é digitada de forma oculta):
+
 ```bash
 flask --app app create-admin
 ```
+
 Você será perguntado por: nome de usuário, nome de exibição e senha.
 Guarde bem essas credenciais — é você quem vai logar com elas.
 
@@ -73,9 +83,11 @@ Guarde bem essas credenciais — é você quem vai logar com elas.
 > emergência" caso você esqueça a senha, direto no servidor).
 
 ### 6. Rodar a aplicação
+
 ```bash
 python app.py
 ```
+
 Acesse **http://127.0.0.1:5000** e faça login com o usuário que você acabou
 de criar.
 
@@ -93,6 +105,7 @@ Lá você pode:
 - Excluir usuários
 
 **Proteções automáticas:**
+
 - Ninguém consegue excluir ou desativar a própria conta.
 - O sistema nunca fica sem nenhum administrador ativo (a última conta admin
   não pode ser rebaixada, desativada ou excluída).
@@ -119,6 +132,7 @@ PostgreSQL gerenciado que eles mesmos oferecem (geralmente com plano
 gratuito ou bem barato).
 
 Passo a passo (Render como exemplo):
+
 1. Suba este projeto para um repositório no GitHub.
 2. No Render, crie um **PostgreSQL** (Render fornece a `DATABASE_URL` pronta).
 3. Crie um **Web Service** apontando para o repositório.
