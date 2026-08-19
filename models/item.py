@@ -21,7 +21,7 @@ class Item(db.Model):
     quantidade = db.Column(db.Integer, nullable=False, default=0)
     localizacao = db.Column(db.String(150), nullable=False)
     finalidade = db.Column(db.String(100), nullable=False)
-
+    observacoes = db.Column(db.Text, nullable=True)  # campo opcional, texto livre
     criado_em = db.Column(db.DateTime, default=datetime.utcnow)
     atualizado_em = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
@@ -32,4 +32,5 @@ class Item(db.Model):
             "quantidade": self.quantidade,
             "localizacao": self.localizacao,
             "finalidade": self.finalidade,
+            "observacoes": self.observacoes or "",
         }

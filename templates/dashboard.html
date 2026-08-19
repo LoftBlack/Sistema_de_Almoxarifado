@@ -100,6 +100,10 @@
             <label for="inputFinalidade">Finalidade/Categoria *</label>
             <input type="text" id="inputFinalidade" placeholder="Ex: Retiro, Liturgia, Manutenção..." required>
           </div>
+          <div class="campo">
+            <label for="inputObservacoes">Observações</label>
+            <textarea id="inputObservacoes" rows="3" placeholder="Detalhes adicionais sobre o item (opcional)" style="width:100%; padding:13px 20px; border:1.5px solid var(--marrom-borda); border-radius:16px; font-family:inherit; font-size:14px; resize:vertical;"></textarea>
+          </div>
 
           <div class="alerta" id="alertaFormulario" style="display:none;"></div>
         </form>
@@ -110,7 +114,21 @@
       </div>
     </div>
   </div>
-
+  <!-- Modal de Visualizar Observação -->
+  <div class="overlay" id="overlayModalObservacao">
+    <div class="modal" style="max-width: 420px;">
+      <div class="modal-cabecalho">
+        <h3><i class="fa-solid fa-note-sticky"></i> Observação</h3>
+        <button class="fechar-modal" id="btnFecharModalObservacao">&times;</button>
+      </div>
+      <div class="modal-corpo">
+        <p id="textoObservacaoVisualizar" style="white-space: pre-wrap; color: var(--texto); line-height: 1.5; margin: 0;"></p>
+      </div>
+      <div class="modal-rodape">
+        <button class="btn btn-secundario" id="btnFecharObservacao2">Fechar</button>
+      </div>
+    </div>
+  </div>
   <!-- Toast de notificação -->
   <div id="toast"><i class="fa-solid fa-circle-check"></i> <span id="toastMensagem"></span></div>
 

@@ -19,6 +19,7 @@ const inputNome = document.getElementById("inputNome");
 const inputQuantidade = document.getElementById("inputQuantidade");
 const inputLocalizacao = document.getElementById("inputLocalizacao");
 const inputFinalidade = document.getElementById("inputFinalidade");
+const inputObservacoes = document.getElementById("inputObservacoes");
 const alertaFormulario = document.getElementById("alertaFormulario");
 
 const btnNovoItem = document.getElementById("btnNovoItem");
@@ -71,6 +72,10 @@ function renderizarTabela(itens) {
       <td data-rotulo="Finalidade"><span class="badge">${escapeHtml(item.finalidade)}</span></td>
       <td data-rotulo="Ações">
         <div class="acoes-linha">
+          ${item.observacoes ? `
+            <button class="icon-btn ver-obs" title="Ver observação" data-id="${item.id}">
+              <i class="fa-solid fa-note-sticky"></i>
+            </button>` : ""}
           <button class="icon-btn editar" title="Editar" data-id="${item.id}">
             <i class="fa-solid fa-pen"></i>
           </button>
@@ -91,6 +96,9 @@ function renderizarTabela(itens) {
   corpoTabela.querySelectorAll(".excluir").forEach((btn) => {
     btn.addEventListener("click", () => confirmarExclusao(btn.dataset.id));
   });
+  corpoTabela.querySelectorAll(".ver-obs").forEach((btn) => {
+  btn.addEventListener("click", () => verObservacao(btn.dataset.id));
+});
 }
 
 function escapeHtml(texto) {
@@ -148,6 +156,7 @@ function abrirModalEdicao(id) {
   inputQuantidade.value = item.quantidade;
   inputLocalizacao.value = item.localizacao;
   inputFinalidade.value = item.finalidade;
+  inputObservacoes.value = item.observacoes || "";
   esconderAlerta();
   overlayModal.classList.add("ativo");
 }
@@ -180,6 +189,7 @@ async function salvarItem() {
     quantidade: inputQuantidade.value,
     localizacao: inputLocalizacao.value.trim(),
     finalidade: inputFinalidade.value.trim(),
+    observacoes: inputObservacoes.value.trim(),
   };
 
   // Validação básica no front (a validação real/segura ocorre no backend)
@@ -270,3 +280,20 @@ function mostrarToast(mensagem, tipo = "sucesso") {
   toast.classList.add("mostrar");
   toastTimeout = setTimeout(() => toast.classList.remove("mostrar"), 3000);
 }
+
+function verObservacao(id) {
+  const item = itensCache.find((i) => String(i.id) === String(id));
+  if (!item) return;
+  document.getElementById("textoObservacaoVisualizar").textContent = item.observacoes;
+  document.getElementById("overlayModalObservacao").classList.add("ativo");
+}
+
+document.getElementById("btnFecharModalObservacao").addEventListener("click", () => {
+  document.getElementById("overlayModalObservacao").classList.remove("ativo");
+});
+document.getElementById("btnFecharObservacao2").addEventListener("click", () => {
+  document.getElementById("overlayModalObservacao").classList.remove("ativo");
+});
+document.getElementById("overlayModalObservacao").addEventListener("click", (e) => {
+  if (e.target.id === "overlayModalObservacao") e.target.classList.remove("ativo");
+});

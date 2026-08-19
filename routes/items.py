@@ -41,6 +41,7 @@ def criar_item():
     nome = (dados.get("nome") or "").strip()
     localizacao = (dados.get("localizacao") or "").strip()
     finalidade = (dados.get("finalidade") or "").strip()
+    observacoes = (dados.get("observacoes") or "").strip()
     quantidade = dados.get("quantidade")
 
     erros = validar_item(nome, localizacao, finalidade, quantidade)
@@ -52,6 +53,7 @@ def criar_item():
         quantidade=int(quantidade),
         localizacao=localizacao,
         finalidade=finalidade,
+        observacoes=observacoes,
     )
     db.session.add(item)
     db.session.commit()
@@ -81,6 +83,7 @@ def atualizar_item(item_id):
     item.quantidade = int(quantidade)
     item.localizacao = localizacao
     item.finalidade = finalidade
+    item.observacoes = observacoes
     db.session.commit()
 
     return jsonify(item.to_dict())
