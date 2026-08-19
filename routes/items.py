@@ -74,7 +74,8 @@ def atualizar_item(item_id):
     localizacao = (dados.get("localizacao") or "").strip()
     finalidade = (dados.get("finalidade") or "").strip()
     quantidade = dados.get("quantidade")
-
+    observacoes = (dados.get("observacoes") or "").strip()
+    
     erros = validar_item(nome, localizacao, finalidade, quantidade)
     if erros:
         return jsonify({"erros": erros}), 400
